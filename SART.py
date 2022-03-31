@@ -12,9 +12,9 @@ import os
 import pdb
 #import pylab
 from PIL import Image
-import tensorflow as tf
-from model import denoiser
-from utils import *
+#import tensorflow as tf
+#from model import denoiser
+#from utils import *
 
 def create_projector(geom, numbin, angles, dso, dod, fan_angle):
     if geom == 'parallel':
@@ -26,7 +26,7 @@ def create_projector(geom, numbin, angles, dso, dod, fan_angle):
 
         proj_geom = astra.create_proj_geom(geom, det_width, numbin, angles, dso, dod)
 
-    p = astra.create_projector('strip_fanflat',proj_geom,vol_geom);
+    p = astra.create_projector('cuda',proj_geom,vol_geom);
     return p
     
 def grad_TV(img,numpix):
@@ -138,6 +138,7 @@ for j in range(ns):
     Minv[j] = np.maximum(Minv[j],eps)
     P[j] = p
 res_file = open(outfile+"/residuals.txt","w+") #file to store residuals
+
 for name in fnames:
 #    pdb.set_trace()
     #read in sinogram
